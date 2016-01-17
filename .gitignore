@@ -4,5 +4,4 @@ app/models/
 docs
 app/public/libs/
 app/public/js
-assets/public/js/main.js
 .idea/
