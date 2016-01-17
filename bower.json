@@ -25,6 +25,7 @@
   "dependencies": {
     "foundation": "~5.5.1",
     "pubsubjs": "~0.4.0",
-    "PubSubJS": "pubsub-js#~1.5.3"
+    "PubSubJS": "pubsub-js#~1.5.3",
+    "bootstrap": "~3.3.6"
   }
 }
