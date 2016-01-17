@@ -52,8 +52,8 @@ var ListItemAdder = React.createClass({
 					this.setState({ description : change.value });
 					break;
 				case 'item-startdate':
-					console.log(change.value);
 					this.setState({ startDate: change.value });
+					break;
 			}
 		}
 	},
@@ -83,7 +83,7 @@ var ListItemAdder = React.createClass({
 			this.setState({
 				name: '',
 				description: '',
-				date: ''
+				startDate: ''
 			});
 		}
 	},
