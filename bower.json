@@ -1,0 +1,30 @@
+{
+  "name": "Apothecarist",
+  "version": "0.0.1",
+  "homepage": "https://github.com/apharanes/apothecarist",
+  "authors": [
+    "Jeanella Klarys Pascual <jeanella@migo.tv>"
+  ],
+  "main": "app.js",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "\"apothecary\"",
+    "\"forest\"",
+    "\"village\""
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "foundation": "~5.5.1",
+    "pubsubjs": "~0.4.0",
+    "PubSubJS": "pubsub-js#~1.5.3"
+  }
+}
