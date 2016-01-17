@@ -1,5 +1,6 @@
 var React = require('react');
 var _ = require('lodash');
+var moment = require('moment');
 var PubSub = require('pubsub-js');
 
 var ProgramAdder = require('../programs/ProgramAdder');
@@ -11,6 +12,7 @@ var ListItemAdder = React.createClass({
 		return {
 			name: '',
 			description: '',
+			startDate: Date.now(),
 			categories: [],
 			programs: []
 		};
@@ -49,6 +51,9 @@ var ListItemAdder = React.createClass({
 				case 'item-description':
 					this.setState({ description : change.value });
 					break;
+				case 'item-startdate':
+					console.log(change.value);
+					this.setState({ startDate: change.value });
 			}
 		}
 	},
@@ -60,7 +65,7 @@ var ListItemAdder = React.createClass({
 			programs: this.state.programs,
 			description: this.state.description,
 			categories: this.state.categories,
-			startDate: Date.now()
+			startDate: moment.utc(this.state.startDate, 'DD-MM-YYYY').valueOf()
 		};
 
 		$.ajax({			
@@ -77,54 +82,61 @@ var ListItemAdder = React.createClass({
 		if (this.isMounted()) {
 			this.setState({
 				name: '',
-				description: ''
+				description: '',
+				date: ''
 			});
 		}
 	},
 	render: function () {
-		var name = this.state.name;
-		var description = this.state.description;
-
 		return (
 			<div id="list-item-adder">
 				<form className="form-horizontal">
-					<div className="form-group">
-						<label for="item-name" className="col-sm-2 control-label">Name</label>
+					<div className="item-name form-group">
+						<label className="col-sm-2 control-label">Name</label>
 						<div className="col-sm-10">
-							<input 
-								type="text" 
-								className="form-control" 
+							<input
+								type="text"
+								className="form-control"
 								id="item-name"
 								placeholder="Item name"
-								value={ name }
 								onChange={this.handleChange} />
 						</div>
 					</div>
-					<div className="form-group">
-						<label for="item-description" className="col-sm-2 control-label">Description</label>
+					<div className="item-description form-group">
+						<label className="col-sm-2 control-label">Description</label>
 						<div className="col-sm-10">
-							<textarea 
-								rows="2" 
-								className="form-control" 
+							<textarea
+								rows="2"
+								className="form-control"
 								id="item-description"
 								placeholder="Write more information about the item here."
-								value={ description } 
 								onChange={this.handleChange}/>
 						</div>
 					</div>
-					<div className="form-group">
+					<div className="item-startdate form-group">
+						<label className="col-sm-2 control-label">Start Date (DD-MM-YYYY)</label>
+						<div className="col-sm-10">
+							<input
+								type="date"
+								className="form-control"
+								placeholder="e.g. 31-01-2016"
+								id="item-startdate"
+								onChange={this.handleChange}/>
+						</div>
+					</div>
+					<div className="item-patterns form-group">
 						<label className="col-sm-2 control-label">Patterns</label>
 						<div className="col-sm-10">
 							<ProgramAdder />
 						</div>
 					</div>
-					<div className="form-group">
+					<div className="item-categories form-group">
 						<label className="col-sm-2 control-label">Categories</label>
 						<div className="col-sm-10">
 							<CategoryAdder />
 						</div>
 					</div>
-					<div className="form-group">
+					<div className="item-tags form-group">
 						<label className="col-sm-2 control-label">Tags</label>
 						<div className="col-sm-10">
 							<TagAdder />
@@ -138,6 +150,9 @@ var ListItemAdder = React.createClass({
 				</div>
 			</div>
 		);
+		var name = this.state.name;
+
+		var description = this.state.description;
 	}
 });
 
