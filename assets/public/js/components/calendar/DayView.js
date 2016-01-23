@@ -12,7 +12,7 @@ var TodayList = require('./TodayList');
 var DayView = React.createClass({
     getInitialState: function () {
         return {
-            currentDate: moment(Date.now()).startOf('day')
+            currentDate: this.setToday()
         }
     },
     loadNextDay: function () {
@@ -32,7 +32,7 @@ var DayView = React.createClass({
     loadToday: function () {
         if (this.isMounted()) {
             this.setState({
-                currentDate: moment(Date.now()).startOf('day')
+                currentDate: this.setToday()
             })
         }
     },
@@ -42,6 +42,9 @@ var DayView = React.createClass({
                 date: event.target.value
             })
         }
+    },
+    setToday: function () {
+      return moment(Date.now()).startOf('day');
     },
     loadDate: function (event) {
         var date = event.target.value;
