@@ -65,7 +65,7 @@ var ListItemAdder = React.createClass({
 			programs: this.state.programs,
 			description: this.state.description,
 			categories: this.state.categories,
-			startDate: moment(this.state.startDate, 'YYYY-MM-YY').valueOf()
+			startDate: moment(this.state.startDate, 'YYYY-MM-DD').valueOf()
 		};
 
 		$.ajax({			
