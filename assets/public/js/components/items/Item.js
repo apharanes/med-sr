@@ -2,11 +2,11 @@ var React = require('react');
 var _ = require('lodash');
 var PubSub = require('pubsub-js');
 
+var ItemPrograms = require('./ItemPrograms');
 var ItemCategories = require('./ItemCategories');
 var ItemTags = require('./ItemTags');
 
 var Item = React.createClass({
-	getInitialState: function () {
 		return { item: {} };
 	},
 	componentDidMount: function () {
@@ -14,7 +14,6 @@ var Item = React.createClass({
 			this.setState({
 				item: this.props.item
 			});
-		}
 	},
 	remove: function () {
 		var self = this;
@@ -37,15 +36,15 @@ var Item = React.createClass({
 				</li>
 			)
 		} else {
-			var programs = JSON.stringify(_.pluck(item.programs, 'name'));
 
+			
 			return (
 				<li className="list-group-item">
 					<a href="#">
 						<h4 className="item-name list-group-item-heading">{item.name}</h4>
 						<p className="item-start-date list-group-item-text">{item.startDate}</p>
 						<p className="item-description list-group-item-text">{item.description}</p>
-						<p className="programs">{programs}</p>
+						<ItemPrograms programs={item.programs} />
 						<ItemCategories categories={item.categories} />
 						<ItemTags tags={item.tags} />
 						<button type="button" className="btn btn-danger" onClick={this.remove}>
