@@ -1,6 +1,7 @@
 var React = require('react');
 var _ = require('lodash');
 var PubSub = require('pubsub-js');
+var moment = require('moment');
 
 var ItemPrograms = require('./ItemPrograms');
 var ItemCategories = require('./ItemCategories');
@@ -18,6 +19,40 @@ var Item = React.createClass({
 			}
 		});
 	},
+	getNextOccurrence: function (recurrences) {
+		var today = moment(Date.now()).startOf('day').valueOf();
+
+		var dates = _.map(recurrences,
+			function (recurrence) {
+				return moment(recurrence).startOf('day').valueOf() }
+		);
+
+		dates = _.reject(dates,
+			function (recurrence) {
+				return recurrence == today;
+			}
+		);
+
+		var tuples = _.map(dates,
+			function (recurrence) {
+				return [recurrence, Math.abs(recurrence - today)];
+			}
+		);
+
+		var recurrence = _.reduce(tuples,
+			function (memo, val) {
+				if (memo[1] < val[1]) {
+					return memo;
+				}
+				else {
+					return val;
+				}
+			}
+			, [-1, 999999999999]
+		)[0];
+
+		return moment(recurrence).toString();
+	},
 	render: function () {
 		var item = this.props.item;
 
@@ -29,12 +64,18 @@ var Item = React.createClass({
 			)
 		} else {
 
+			var nextOccurrence = this.getNextOccurrence(item.recurrences);
+
 			return (
 				<li className="list-group-item">
 					<a href="#">
 						<h4 className="item-name list-group-item-heading">{item.name}</h4>
 						<p className="item-start-date list-group-item-text">{item.startDate}</p>
 						<p className="item-description list-group-item-text">{item.description}</p>
+						<p className="item-description list-group-item-text">
+							<span>Next Date: </span>
+							<span>{nextOccurrence}</span>
+						</p>
 						<ItemPrograms programs={item.programs} />
 						<ItemCategories categories={item.categories} />
 						<ItemTags tags={item.tags} />
