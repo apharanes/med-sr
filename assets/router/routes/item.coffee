@@ -25,18 +25,18 @@ generateRecurrences = (startDate, programs, callback) ->
 			else
 				sortedSchedules = _.sortBy(program.schedules, 'recurrence')
 
-				nextDate = moment(startDate)
+				nextDate = moment(startDate).startOf('day')
 				recurrences.push(new Date(nextDate.valueOf()))
 
 				_.each(sortedSchedules,
 					(schedule) ->	
 						if schedule.period > -1
 							for i in [1..schedule.period]
-								nextDate = moment(nextDate).add(schedule.recurrence, 'days')
+								nextDate = moment(nextDate).add(schedule.recurrence, 'days').startOf('day')
 								recurrences.push(new Date(nextDate.valueOf()))
 						else
 							while nextDate.isBefore('2017/12/31')
-								nextDate = moment(nextDate).add(schedule.recurrence, 'days')
+								nextDate = moment(nextDate).add(schedule.recurrence, 'days').startOf('day')
 								recurrences.push(new Date(nextDate.valueOf()))
 				)
 			callback(recurrences)
@@ -131,6 +131,7 @@ exports.listToday = (req, res) ->
 	tomorrow = moment(today).add(1, 'days')
 
 	return Item
+		.populate('programs')
 		.find({ startDate: { $lt: tomorrow.toDate(), $gte: today.toDate() }})
 		.exec (err, items) ->
 			if (err) then res.send(err)
@@ -139,13 +140,14 @@ exports.listToday = (req, res) ->
 
 exports.listByTargetDate = (req, res) ->
 	date = parseInt(req.body.date)
-	target = moment.utc(date).startOf('day')
+	target = moment(date).startOf('day')
 	console.log(target.toDate())
-	tomorrow = moment.utc(target).add(1, 'days')
+	tomorrow = moment(target).add(1, 'days')
 	console.log(tomorrow.toDate())
 
 	return Item
 		.find({ recurrences: { $elemMatch: { $lt: tomorrow.toDate(), $gte: target.toDate() } }})
+		.populate('programs categories tags')
 		.exec (err, items) ->
 			if (err)
 				console.error(err)
