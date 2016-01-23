@@ -36,12 +36,35 @@ var DayView = React.createClass({
             })
         }
     },
+    handleDateInput: function (event) {
+        if (this.isMounted()) {
+            this.setState({
+                date: event.target.value
+            })
+        }
+    },
+    loadDate: function (event) {
+        var date = event.target.value;
+
+
+        if (this.isMounted()) {
+            this.setState({
+                currentDate: moment(this.state.date, 'DD-MM-YYYY').startOf('day')
+            });
+        }
+    },
     render: function () {
         return (
             <div className="day-view">
                 <button type="button" onClick={this.loadPreviousDay}>Prev</button>
                 <button type="button" onClick={this.loadToday}>Today</button>
                 <button type="button" onClick={this.loadNextDay}>Next</button>
+
+                <div>
+                    <span>Date: </span>
+                    <input type="date" onChange={this.handleDateInput}/>
+                    <button type="button" className="btn btn-default" onClick={this.loadDate}>Go</button>
+                </div>
                 <h3>{this.state.currentDate.format('dddd, DD/MMM/YYYY').toString()}</h3>
 
                 <TodayList date={this.state.currentDate.valueOf()} />
