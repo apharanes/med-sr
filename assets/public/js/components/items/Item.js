@@ -7,14 +7,6 @@ var ItemCategories = require('./ItemCategories');
 var ItemTags = require('./ItemTags');
 
 var Item = React.createClass({
-		return { item: {} };
-	},
-	componentDidMount: function () {
-		if(this.isMounted()) {
-			this.setState({
-				item: this.props.item
-			});
-	},
 	remove: function () {
 		var self = this;
 
@@ -27,7 +19,7 @@ var Item = React.createClass({
 		});
 	},
 	render: function () {
-		var item = this.state.item;
+		var item = this.props.item;
 
 		if(_.isEmpty(item)) {
 			return (
@@ -37,7 +29,6 @@ var Item = React.createClass({
 			)
 		} else {
 
-			
 			return (
 				<li className="list-group-item">
 					<a href="#">

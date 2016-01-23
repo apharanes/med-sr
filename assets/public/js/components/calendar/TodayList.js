@@ -11,32 +11,19 @@ var TodayList = React.createClass({
 			items: []
 		}
 	},
-	componentDidMount: function () {
-		var self = this;
-		$.ajax({
-			url: '/api/items/by/date',
-			method: 'post',
-			data: {
-				date: this.props.date
-			},
-			success: function (res) {
-				if (self.isMounted()) {
-					self.setState({
-						items: res
-					});
-					console.log(res)
-				}
-			}
-		});
+	componentWillMount: function () {
+		this.getItemsByDate(this.props.date);
 	},
 	componentWillReceiveProps: function (props) {
-		console.log(moment(props.date).toString());
+		this.getItemsByDate(props.date);
+	},
+	getItemsByDate: function (date) {
 		var self = this;
 		$.ajax({
 			url: '/api/items/by/date',
 			method: 'post',
 			data: {
-				date: props.date
+				date: date
 			},
 			success: function (res) {
 				if (self.isMounted()) {
@@ -58,5 +45,6 @@ var TodayList = React.createClass({
 		);
 	}
 });
+
 
 module.exports = TodayList;

@@ -49,26 +49,18 @@ var ItemsList = React.createClass({
 						});
 					}
 				});
-			} else if (this.props.items != null) {
-				this.setState({
-					items: this.props.items
-				});
-			}
-		}
-	},
-	componentWillReceiveProps: function (props) {
-		if (this.isMounted()) {
-			if (this.props.items != null) {
-				this.setState({
-					items: props.items
-				});
 			}
 		}
 	},
 	render: function () {
-		var items;
-		if (!_.isEmpty(this.state.items)) {
-			items = this.state.items.map(function(item, index) {
+		var itemsComponent, items;
+		if (this.props.items != null) {
+			items = this.props.items;
+		} else { // this.props.url != null
+			items = this.state.items;
+		}
+		if (!_.isEmpty(items)) {
+			itemsComponent = items.map(function(item, index) {
 				return (
 					<Item className="item"
 						item={item} 
@@ -76,14 +68,14 @@ var ItemsList = React.createClass({
 				);
 			});	
 		} else {
-			items = <Item className="item empty" />
+			itemsComponent = <Item className="item empty" />
 		}
 
 
 		return (
 			<div className="items-list row">					
 				<ul className="list-group">
-					{ items }		
+					{ itemsComponent }
 				</ul>
 			</div>
 		);
