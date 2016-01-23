@@ -52,7 +52,7 @@ var DayView = React.createClass({
 
         if (this.isMounted()) {
             this.setState({
-                currentDate: moment(this.state.date, 'DD-MM-YYYY').startOf('day')
+                currentDate: moment(this.state.date, 'YYYY-MM-DD').startOf('day')
             });
         }
     },

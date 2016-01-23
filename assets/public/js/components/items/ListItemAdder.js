@@ -114,12 +114,12 @@ var ListItemAdder = React.createClass({
 						</div>
 					</div>
 					<div className="item-startdate form-group">
-						<label className="col-sm-2 control-label">Start Date (DD-MM-YYYY)</label>
+						<label className="col-sm-2 control-label">Start Date</label>
 						<div className="col-sm-10">
 							<input
 								type="date"
 								className="form-control"
-								placeholder="e.g. 31-01-2016"
+								placeholder="Select a date"
 								id="item-startdate"
 								onChange={this.handleChange}/>
 						</div>
