@@ -35,7 +35,7 @@ var TodayList = React.createClass({
 		});
 	},
 	render: function () {
-		var date = moment(this.props.date).format('dddd, DD/MMM/YYYY').toString();
+		var date = moment(this.props.date).format('dddd, MM/DD/YYYY').toString();
 
 		return (
 			<div id="today-list">
