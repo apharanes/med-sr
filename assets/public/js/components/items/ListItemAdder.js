@@ -82,8 +82,7 @@ var ListItemAdder = React.createClass({
 		if (this.isMounted()) {
 			this.setState({
 				name: '',
-				description: '',
-				startDate: ''
+				description: ''
 			});
 		}
 	},
