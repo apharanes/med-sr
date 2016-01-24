@@ -12,7 +12,7 @@ var ListItemAdder = React.createClass({
 		return {
 			name: '',
 			description: '',
-			startDate: Date.now(),
+			startDate: moment(Date.now()).format('YYYY-MM-DD').toString(),
 			categories: [],
 			programs: []
 		};
@@ -87,6 +87,8 @@ var ListItemAdder = React.createClass({
 		}
 	},
 	render: function () {
+		var defaultDate = this.state.startDate;
+
 		return (
 			<div id="list-item-adder">
 				<form className="form-horizontal">
@@ -118,6 +120,7 @@ var ListItemAdder = React.createClass({
 							<input
 								type="date"
 								className="form-control"
+								value={defaultDate}
 								placeholder="Select a date"
 								id="item-startdate"
 								onChange={this.handleChange}/>
