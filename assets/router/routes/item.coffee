@@ -41,7 +41,6 @@ generateRecurrences = (startDate, programs, callback) ->
 				)
 			callback(recurrences)
 
-
 #
 # List items
 #
@@ -141,9 +140,7 @@ exports.listToday = (req, res) ->
 exports.listByTargetDate = (req, res) ->
 	date = parseInt(req.body.date)
 	target = moment(date).startOf('day')
-	console.log(target.toDate())
 	tomorrow = moment(target).add(1, 'days')
-	console.log(tomorrow.toDate())
 
 	return Item
 		.find({ recurrences: { $elemMatch: { $lt: tomorrow.toDate(), $gte: target.toDate() } }})

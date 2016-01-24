@@ -152,9 +152,6 @@ var ListItemAdder = React.createClass({
 				</div>
 			</div>
 		);
-		var name = this.state.name;
-
-		var description = this.state.description;
 	}
 });
 
