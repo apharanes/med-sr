@@ -6,6 +6,7 @@ _ = require('lodash');
 
 var MenuBar = require('./menu/MenuBar');
 var MainView = require('./pages/MainView');
+var Modal = require('./generic/Modal');
 
 var menuItems = [
 	{
@@ -67,6 +68,7 @@ APP = React.createClass({
 			<div className="container-fluid">
 				<MenuBar menuItems={menuItems} />
 				<MainView module={defaultModule} />
+				<Modal></Modal>
 			</div>
 		);
 	}
