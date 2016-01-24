@@ -18,16 +18,32 @@ var Item = React.createClass({
 					display: 'initial'
 				}
 			}
-		}
+		};
 	},
-	remove: function () {
+	componentWillMount: function () {
+		PubSub.subscribe('item:remove', this.remove);
+	},
+	removePrompt: function () {
+		PubSub.publish(
+			'modal:show',
+			{
+				title: 'Items',
+				body: 'Are you sure you want to remove this item?',
+				confirmMessage: {
+					eventName: 'item:remove',
+					id: this.props.item._id
+				}
+			}
+		);
+	},
+	remove: function (msg, id) {
 		var self = this;
 
 		$.ajax({
-			url: '/api/items/' + this.props.item._id,
+			url: '/api/items/' + id,
 			method: 'delete',
 			success: function() {
-				PubSub.publish('list-item-delete', self.props.item._id);
+				PubSub.publish('list-item-delete', id);
 			}
 		});
 	},
@@ -99,8 +115,8 @@ var Item = React.createClass({
 						<ItemPrograms programs={item.programs} />
 						<ItemCategories categories={item.categories} />
 						<ItemTags tags={item.tags} />
-						<div class="edit-functions" style={style}>
-							<button type="button" className="btn btn-danger btn-small" onClick={this.remove}>
+						<div className="edit-functions" style={style}>
+							<button type="button" className="btn btn-danger btn-small" onClick={this.removePrompt}>
 								<span className="glyphicon glyphicon-remove"></span>
 							</button>
 						</div>
