@@ -40,7 +40,7 @@ var TodayList = React.createClass({
 		return (
 			<div id="today-list">
 				<h2>Study Plan for {date}</h2>
-				<ItemsList items={this.state.items} />
+				<ItemsList items={this.state.items} editMode={false}/>
 			</div>
 		);
 	}

@@ -8,6 +8,18 @@ var ItemCategories = require('./ItemCategories');
 var ItemTags = require('./ItemTags');
 
 var Item = React.createClass({
+	getInitialState: function () {
+		return {
+			style: {
+				readMode: {
+					display: 'none'
+				},
+				editMode: {
+					display: 'initial'
+				}
+			}
+		}
+	},
 	remove: function () {
 		var self = this;
 
@@ -54,7 +66,15 @@ var Item = React.createClass({
 		return moment(recurrence).toString();
 	},
 	render: function () {
+		var style;
 		var item = this.props.item;
+		var editMode = this.props.editMode;
+		if (editMode) {
+			style = this.state.style.editMode;
+		} else {
+			style = this.state.style.readMode;
+		}
+
 
 		if(_.isEmpty(item)) {
 			return (
@@ -79,9 +99,11 @@ var Item = React.createClass({
 						<ItemPrograms programs={item.programs} />
 						<ItemCategories categories={item.categories} />
 						<ItemTags tags={item.tags} />
-						<button type="button" className="btn btn-danger" onClick={this.remove}>
-							<span className="glyphicon glyphicon-remove"></span>
-						</button>
+						<div class="edit-functions" style={style}>
+							<button type="button" className="btn btn-danger btn-small" onClick={this.remove}>
+								<span className="glyphicon glyphicon-remove"></span>
+							</button>
+						</div>
 					</a>
 				</li>
 			);

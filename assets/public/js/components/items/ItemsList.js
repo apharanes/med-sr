@@ -54,6 +54,7 @@ var ItemsList = React.createClass({
 	},
 	render: function () {
 		var itemsComponent, items;
+		var self = this;
 		if (this.props.items != null) {
 			items = this.props.items;
 		} else { // this.props.url != null
@@ -64,7 +65,9 @@ var ItemsList = React.createClass({
 				return (
 					<Item className="item"
 						item={item} 
-						key={index} />
+						key={index}
+						  editMode={self.props.editMode}
+					/>
 				);
 			});	
 		} else {

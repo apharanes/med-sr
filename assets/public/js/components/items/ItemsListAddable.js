@@ -12,7 +12,7 @@ var ItemsListAddable = React.createClass({
 					<ListItemAdder />
 				</div>
 				<div className="col-md-7">						
-					<ItemsList url={this.props.url}/>
+					<ItemsList url={this.props.url} editMode={true}/>
 				</div>
 			</div>
 		);
