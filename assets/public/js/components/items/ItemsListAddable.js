@@ -3,6 +3,7 @@ var _ = require('lodash');
 
 var ListItemAdder = require('./ListItemAdder');
 var ItemsList = require('./ItemsList');
+var ItemsFilter = require('../items/ItemsFilter');
 
 var ItemsListAddable = React.createClass({
 	render: function () {
@@ -11,7 +12,8 @@ var ItemsListAddable = React.createClass({
 				<div className="col-md-5">
 					<ListItemAdder />
 				</div>
-				<div className="col-md-7">						
+				<div className="col-md-7">
+					<ItemsFilter />
 					<ItemsList url={this.props.url} editMode={true}/>
 				</div>
 			</div>

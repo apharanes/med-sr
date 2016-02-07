@@ -10,6 +10,7 @@ var ItemsList = React.createClass({
 	getInitialState: function () {
 		return {
 			items: [],
+			allItems: [],
 			url: '',
 			totalItems: 362
 		};
@@ -17,12 +18,15 @@ var ItemsList = React.createClass({
 	componentWillMount: function () {
 		PubSub.subscribe('list-item-add', this.addItem);
 		PubSub.subscribe('list-item-delete', this.removeItem);
+		PubSub.subscribe('items:filter', this.filter);
+		PubSub.subscribe('items:filter:all', this.filterAll);
 	},
 	addItem: function(msg, item) {
 		if (this.isMounted()) {
 			this.state.items.push(item);
 			this.setState({
-				items: this.state.items
+				items: this.state.items,
+				allItems: this.state.items
 			});
 		}
 	},
@@ -33,7 +37,8 @@ var ItemsList = React.createClass({
 					return item._id === itemId;
 				});
 			this.setState({
-				items: items
+				items: items,
+				allItems: items
 			});
 		}
 	},
@@ -46,17 +51,40 @@ var ItemsList = React.createClass({
 					url: this.props.url,
 					success: function (res) {
 						self.setState({
-							items: res
+							allItems: res
 						});
+						self.filterAll();
 					}
 				});
 			}
 		}
 	},
 	getPercentage: function () {
-		percentage = (this.state.items.length / this.state.totalItems) * 100;
+		percentage = (this.state.allItems.length / this.state.totalItems) * 100;
 		rounded = parseFloat(Math.round(percentage)).toFixed(2);
-		return rounded
+		return rounded;
+	},
+	filter: function (msg, filters) {
+		var filteredItems = [];
+
+		if (this.isMounted()) {
+			filteredItems = _.filter(this.state.allItems, function (item) {
+				itemFilterIds = _.pluck(item[filters.keys], '_id');
+
+				return _.includes(itemFilterIds, filters.objectId);
+			});
+
+			this.setState({
+				items: filteredItems
+			});
+		}
+	},
+	filterAll: function () {
+		if (this.isMounted()) {
+			this.setState({
+				items: this.state.allItems
+			});
+		}
 	},
 	render: function () {
 		var itemsComponent, items;
@@ -84,7 +112,7 @@ var ItemsList = React.createClass({
 			<div className="items-list row">			
 				<div>
 					<span>Total: </span>
-					<span>{this.state.items.length} / {this.state.totalItems} </span>
+					<span>{this.state.allItems.length} / {this.state.totalItems} </span>
 					<span>({this.getPercentage() + '%'})</span>
 				</div>
 
