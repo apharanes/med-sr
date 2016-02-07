@@ -16,6 +16,9 @@ var Item = React.createClass({
 				},
 				editMode: {
 					display: 'initial'
+				},
+				editFunctions: {
+					display: 'inline-block'
 				}
 			}
 		};
@@ -106,7 +109,6 @@ var Item = React.createClass({
 				<li className="list-group-item">
 					<a href="#">
 						<h4 className="item-name list-group-item-heading">{item.name}</h4>
-						<p className="item-start-date list-group-item-text">{item.startDate}</p>
 						<p className="item-description list-group-item-text">{item.description}</p>
 						<p className="item-description list-group-item-text">
 							<span>Next Date: </span>
@@ -114,13 +116,12 @@ var Item = React.createClass({
 						</p>
 						<ItemPrograms programs={item.programs} />
 						<ItemCategories categories={item.categories} />
-						<ItemTags tags={item.tags} />
-						<div className="edit-functions" style={style}>
-							<button type="button" className="btn btn-danger btn-small" onClick={this.removePrompt}>
-								<span className="glyphicon glyphicon-remove"></span>
-							</button>
-						</div>
 					</a>
+					<div className="edit-functions" style={this.state.style.editFunctions}>
+						<button type="button" className="btn btn-danger btn-sm" onClick={this.removePrompt}>
+							<span className="glyphicon glyphicon-remove"></span>
+						</button>
+					</div>
 				</li>
 			);
 		}

@@ -6,9 +6,9 @@ var ItemProgram = React.createClass({
 		var program = this.props.program;
 
 		return (
-			<span className="program">
+			<label className="label label-success program">
 				{program.name}
-			</span>
+			</label>
 		);
 	}
 });

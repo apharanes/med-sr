@@ -6,9 +6,9 @@ var ItemCategory = React.createClass({
 		var category = this.props.category;
 
 		return (
-			<span className="category">
+			<label className="label label-primary category">
 				{category.name}
-			</span>
+			</label>
 		);
 	}
 });
