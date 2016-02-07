@@ -59,10 +59,14 @@ var ItemsFilter = React.createClass({
 
 		return (
 			<div className="category list-adder">
-				<select className="form-control" onChange={this.handleChange}>
-					{categories}
-				</select>
-				<button className="btn btn-default" onClick={this.clearFilters}>Clear Filters</button>
+				<div className="form-inline">
+					<div className="form-group">
+						<select className="form-control" onChange={this.handleChange}>
+							{categories}
+						</select>
+						<button type="clear" className="btn btn-default" onClick={this.clearFilters}>Clear Filters</button>
+					</div>
+				</div>
 			</div>
 		);
 	}

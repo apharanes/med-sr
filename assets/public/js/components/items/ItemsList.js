@@ -61,7 +61,7 @@ var ItemsList = React.createClass({
 	},
 	getPercentage: function () {
 		percentage = (this.state.allItems.length / this.state.totalItems) * 100;
-		rounded = parseFloat(Math.round(percentage)).toFixed(2);
+		rounded = parseFloat(percentage).toFixed(2);
 		return rounded;
 	},
 	filter: function (msg, filters) {
@@ -109,11 +109,17 @@ var ItemsList = React.createClass({
 		}
 
 		return (
-			<div className="items-list row">			
-				<div>
-					<span>Total: </span>
-					<span>{this.state.allItems.length} / {this.state.totalItems} </span>
-					<span>({this.getPercentage() + '%'})</span>
+			<div className="items-list row">
+				<div className="list-stats row">
+					<div className="col-sm-6">
+						<span>Selected: </span>
+						<span>{this.state.items.length}</span>
+					</div>			
+					<div className="col-sm-6">
+						<span>Total: </span>
+						<span>{this.state.allItems.length} / {this.state.totalItems} </span>
+						<span>({this.getPercentage() + '%'})</span>
+					</div>
 				</div>
 
 				<ul className="list-group">
