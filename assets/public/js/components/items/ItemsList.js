@@ -10,7 +10,8 @@ var ItemsList = React.createClass({
 	getInitialState: function () {
 		return {
 			items: [],
-			url: ''
+			url: '',
+			totalItems: 362
 		};
 	},
 	componentWillMount: function () {
@@ -52,6 +53,11 @@ var ItemsList = React.createClass({
 			}
 		}
 	},
+	getPercentage: function () {
+		percentage = (this.state.items.length / this.state.totalItems) * 100;
+		rounded = parseFloat(Math.round(percentage)).toFixed(2);
+		return rounded
+	},
 	render: function () {
 		var itemsComponent, items;
 		var self = this;
@@ -74,9 +80,14 @@ var ItemsList = React.createClass({
 			itemsComponent = <Item className="item empty" />
 		}
 
-
 		return (
-			<div className="items-list row">					
+			<div className="items-list row">			
+				<div>
+					<span>Total: </span>
+					<span>{this.state.items.length} / {this.state.totalItems} </span>
+					<span>({this.getPercentage() + '%'})</span>
+				</div>
+
 				<ul className="list-group">
 					{ itemsComponent }
 				</ul>
