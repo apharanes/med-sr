@@ -8,11 +8,11 @@ var ItemsFilter = require('../items/ItemsFilter');
 var ItemsListAddable = React.createClass({
 	render: function () {
 		return (
-			<div className="items-list row">
-				<div className="col-md-5">
+			<div className="items-addable row">
+				<div className="col-md-5 left-column column">
 					<ListItemAdder />
 				</div>
-				<div className="col-md-7">
+				<div className="col-md-7 right-column column">
 					<ItemsFilter />
 					<ItemsList url={this.props.url} editMode={true}/>
 				</div>

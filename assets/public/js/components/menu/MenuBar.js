@@ -27,6 +27,9 @@ var MenuBar = React.createClass({
 
 		return (
 			<nav className="navbar navbar-default">
+				<div className="navbar-header">
+					<a className="navbar-brand">Med-SR</a>
+				</div>
 				<ul className="nav navbar-nav">
 					{ menuItems }
 				</ul>

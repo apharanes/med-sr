@@ -65,7 +65,7 @@ APP = React.createClass({
 	},
 	render: function () {
 		return (
-			<div className="container-fluid">
+			<div className="app container-fluid">
 				<MenuBar menuItems={menuItems} />
 				<MainView module={defaultModule} />
 				<Modal></Modal>

@@ -109,13 +109,13 @@ var ItemsList = React.createClass({
 		}
 
 		return (
-			<div className="items-list row">
-				<div className="list-stats row">
-					<div className="col-sm-6">
+			<div className="items-list">
+				<div className="list-stats">
+					<div className="stats-filtered list-stat">
 						<span>Selected: </span>
 						<span>{this.state.items.length}</span>
 					</div>			
-					<div className="col-sm-6">
+					<div className="stats-total list-stat">
 						<span>Total: </span>
 						<span>{this.state.allItems.length} / {this.state.totalItems} </span>
 						<span>({this.getPercentage() + '%'})</span>

@@ -1,3 +1,46 @@
+#main {
+	height: inherit;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#main .app.container-fluid {
+	height: 100%;
+}
+
+#main-container {
+	height: calc(100% - 80px);
+}
+
+.module {
+	height: 100%;
+}
+
+.column {
+	height: 100%;
+	max-height: 100%;
+}
+
+#items-module .items-addable {
+	height: 100%;
+}
+
+.items-addable .items-list {
+	height: calc(100% - 55px);
+}
+
+.items-list .list-stat {
+	display: inline-block;
+}
+
+.items-list .list-group {
+	max-height: calc(100% - 30px);
+	overflow-y: auto;
+}
+
 .autosuggestions {
 	position: relative;
 }
