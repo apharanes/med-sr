@@ -53,36 +53,13 @@ var Item = React.createClass({
 	getNextOccurrence: function (recurrences) {
 		var today = moment(Date.now()).startOf('day').valueOf();
 
-		var dates = _.map(recurrences,
-			function (recurrence) {
-				return moment(recurrence).startOf('day').valueOf() }
-		);
-
-		dates = _.reject(dates,
-			function (recurrence) {
-				return recurrence == today;
-			}
-		);
-
-		var tuples = _.map(dates,
-			function (recurrence) {
-				return [recurrence, Math.abs(recurrence - today)];
-			}
-		);
-
-		var recurrence = _.reduce(tuples,
-			function (memo, val) {
-				if (memo[1] < val[1]) {
-					return memo;
+		var nextDate = _.find(recurrences,
+				function (recurrence) {
+					return moment(recurrence).isAfter(today);
 				}
-				else {
-					return val;
-				}
-			}
-			, [-1, 999999999999]
-		)[0];
+			);
 
-		return moment(recurrence).toString();
+		return moment(nextDate).toString();
 	},
 	render: function () {
 		var style;
