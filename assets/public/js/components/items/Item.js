@@ -94,7 +94,7 @@ var Item = React.createClass({
 						<ItemPrograms programs={item.programs} />
 						<ItemCategories categories={item.categories} />
 					</a>
-					<div className="edit-functions" style={this.state.style.editFunctions}>
+					<div className="edit-functions" style={style}>
 						<button type="button" className="btn btn-danger btn-sm" onClick={this.removePrompt}>
 							<span className="glyphicon glyphicon-remove"></span>
 						</button>

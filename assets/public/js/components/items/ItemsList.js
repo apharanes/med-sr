@@ -100,7 +100,7 @@ var ItemsList = React.createClass({
 					<Item className="item"
 						item={item} 
 						key={index}
-						  editMode={self.props.editMode}
+						editMode={self.props.editMode}
 					/>
 				);
 			});	
