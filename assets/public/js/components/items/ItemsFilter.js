@@ -7,7 +7,8 @@ var ItemsFilter = React.createClass({
 		return {
 			filterKeys: ['categories'],
 			currentFilter: 'categories',
-			categories: []
+			categories: [],
+			selected: 'all'
 		};
 	},
 	componentDidMount: function () {
@@ -17,7 +18,7 @@ var ItemsFilter = React.createClass({
 				url: '/api/categories',
 				method: 'GET',
 				success: function (categories) {
-					categories.push({ _id: 'all', name: 'All'});
+					categories.unshift({ _id: 'all', name: 'All'});
 
 					self.setState({
 						categories: categories
@@ -35,6 +36,7 @@ var ItemsFilter = React.createClass({
 				objectId: id
 			});
 		}
+		this.setState({ selected: id })
 	},
 	handleChange: function (event) {
 		var filter = event.target.value;
@@ -42,10 +44,14 @@ var ItemsFilter = React.createClass({
 		this.setFilters(filter);		
 	},
 	clearFilters: function () {
-		PubSub.publish('items:filter:all')
+		this.setState({
+			selected: 'all'
+		});
+		PubSub.publish('items:filter:all');
 	},
 	render: function () {
 		var categories;
+		var selected = this.state.selected;
 
 		if(!_.isEmpty(this.state.categories)) {
 			categories = this.state.categories.map(function (category, index) {
@@ -62,8 +68,13 @@ var ItemsFilter = React.createClass({
 				<div className="form-horizontal">
 					<div className="form-group">
 						<div className="col-sm-9">
-							<select className="form-control" onChange={this.handleChange}>
-								{categories}
+							<select 
+								ref="select"
+								className="form-control" 
+								onChange={this.handleChange} 
+								value={selected}
+								>
+									{categories}
 							</select>
 						</div>
 						<button type="clear" className="btn btn-default col-sm-3" onClick={this.clearFilters}>Clear Filters</button>
