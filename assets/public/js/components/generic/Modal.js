@@ -31,12 +31,12 @@ var MModal = React.createClass({
         }
     },
     confirm: function () {
+        this.hide();
         var message = this.state.confirmMessage;
         PubSub.publish(
             message.eventName,
             message.id
         );
-        this.hide();
     },
     hide: function () {
         if (this.isMounted()) {

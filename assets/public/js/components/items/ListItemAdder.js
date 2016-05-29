@@ -9,13 +9,30 @@ var TagAdder = require('../tags/TagAdder');
 
 var ListItemAdder = React.createClass({
 	getInitialState: function () {
-		return {
-			name: '',
-			description: '',
-			startDate: moment(Date.now()).format('YYYY-MM-DD').toString(),
-			categories: [],
-			programs: []
-		};
+		var item;
+		if (typeof this.props.item == 'object') {
+			var item = this.props.item;
+
+			return {
+				name: item.name,
+				description: item.description,
+				startDate: moment(item.startDate).format('YYYY-MM-DD').toString(),
+				categories: item.categories,
+				programs: item.programs,
+				selectedProgram: item.programs[0],
+				selectedCategory: item.categories[0]
+			}
+		} else {
+			return {
+				name: '',
+				description: '',
+				startDate: moment(Date.now()).format('YYYY-MM-DD').toString(),
+				categories: [],
+				programs: [],
+				selectedProgram: {},
+				selectedCategory: {}
+			};
+		}
 	},
 	componentWillMount: function () {
 		PubSub.subscribe('category:select', this.selectCategory);
@@ -26,7 +43,8 @@ var ListItemAdder = React.createClass({
 			var categories = [];
 			categories.push(category._id);
 			this.setState({
-				categories: categories
+				categories: categories,
+				selectedCategory: category
 			});
 		}
 	},
@@ -35,7 +53,8 @@ var ListItemAdder = React.createClass({
 			var programs = [];
 			programs.push(program._id);
 			this.setState({
-				programs: program
+				programs: programs,
+				selectedProgram: program
 			});
 		}
 	},
@@ -87,7 +106,7 @@ var ListItemAdder = React.createClass({
 		}
 	},
 	render: function () {
-		var defaultDate = this.state.startDate;
+		var item = this.state;		
 
 		return (
 			<div id="list-item-adder">
@@ -100,7 +119,8 @@ var ListItemAdder = React.createClass({
 								className="form-control"
 								id="item-name"
 								placeholder="Item name"
-								onChange={this.handleChange} />
+								onChange={this.handleChange}
+								value ={item.name} />
 						</div>
 					</div>
 					<div className="item-description form-group">
@@ -111,7 +131,8 @@ var ListItemAdder = React.createClass({
 								className="form-control"
 								id="item-description"
 								placeholder="Write more information about the item here."
-								onChange={this.handleChange}/>
+								onChange={this.handleChange}
+								value={item.description}/>
 						</div>
 					</div>
 					<div className="item-startdate form-group">
@@ -120,7 +141,7 @@ var ListItemAdder = React.createClass({
 							<input
 								type="date"
 								className="form-control"
-								value={defaultDate}
+								value={item.startDate}
 								placeholder="Select a date"
 								id="item-startdate"
 								onChange={this.handleChange}/>
@@ -129,13 +150,13 @@ var ListItemAdder = React.createClass({
 					<div className="item-patterns form-group">
 						<label className="col-sm-2 control-label">Patterns</label>
 						<div className="col-sm-10">
-							<ProgramAdder />
+							<ProgramAdder selected={item.selectedProgram}/>
 						</div>
 					</div>
 					<div className="item-categories form-group">
 						<label className="col-sm-2 control-label">Categories</label>
 						<div className="col-sm-10">
-							<CategoryAdder />
+							<CategoryAdder selected={item.selectedCategory}/>
 						</div>
 					</div>
 					<div className="item-tags form-group">

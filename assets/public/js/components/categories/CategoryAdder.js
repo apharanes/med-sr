@@ -4,10 +4,14 @@ var PubSub = require('pubsub-js');
 
 var CategoryAdder = React.createClass({
 	getInitialState: function () {
-		return { categories: [] };
+		return { 
+			selected: 'empty',
+			categories: []
+		};
 	},
 	componentDidMount: function () {
 		var self = this;
+		var selected = this.props.selected;
 
 		if(this.isMounted()) {
 			$.ajax({
@@ -17,10 +21,6 @@ var CategoryAdder = React.createClass({
 					self.setState({
 						categories: categories
 					});
-
-					if(!_.isEmpty(categories)){
-						self.setCategory(categories[0]);
-					}
 				}
 			});
 		}
@@ -40,7 +40,16 @@ var CategoryAdder = React.createClass({
 		this.setCategory(category);		
 	},
 	render: function () {
-		var categories;
+		var selected, categories;
+		if (typeof this.props.selected == 'object') {
+			selected = this.props.selected._id;
+		} else {
+			if (_.isEmpty(this.state.categories)) {
+				selected = 'empty';
+			} else {
+				selected = this.state.categories[0]._id;
+			}
+		}
 
 		if(!_.isEmpty(this.state.categories)) {
 			categories = this.state.categories.map(function (category, index) {
@@ -49,12 +58,12 @@ var CategoryAdder = React.createClass({
 				);
 			});
 		} else {
-			categories = <option>No categories are created yet.</option>
+			categories = <option value="empty">No categories are created yet.</option>
 		}
 
 		return (
 			<div className="category list-adder">
-				<select className="form-control" onChange={this.handleChange}>
+				<select className="form-control" onChange={this.handleChange} value={selected}>
 					{categories}
 				</select>
 			</div>

@@ -6,6 +6,7 @@ var moment = require('moment');
 var ItemPrograms = require('./ItemPrograms');
 var ItemCategories = require('./ItemCategories');
 var ItemTags = require('./ItemTags');
+var ListItemAdder = require('./ListItemAdder');
 
 var Item = React.createClass({
 	getInitialState: function () {
@@ -24,7 +25,21 @@ var Item = React.createClass({
 		};
 	},
 	componentWillMount: function () {
-		PubSub.subscribe('item:remove', this.remove);
+		PubSub.subscribe('item:remove', this.remove);		
+		PubSub.subscribe('item:update', this.update);
+	},
+	startEdit: function () {
+		PubSub.publish(
+			'modal:show',
+			{
+				title: 'Edit ' + this.props.item.name,
+				body: <ListItemAdder item={this.props.item}></ListItemAdder>,
+				confirmMessage: {
+					eventName: 'item:update',
+					id: this.props.item._id
+				}
+			}
+		);
 	},
 	removePrompt: function () {
 		PubSub.publish(
@@ -47,6 +62,17 @@ var Item = React.createClass({
 			method: 'delete',
 			success: function() {
 				PubSub.publish('list-item-delete', id);
+			}
+		});
+	},
+	update: function (msg, id) {
+		var self = this;
+
+		$.ajax({
+			url: '/api/items/' + id,
+			method: 'put',
+			success: function() {
+				PubSub.publish('list-item-update', id);
 			}
 		});
 	},
@@ -95,6 +121,9 @@ var Item = React.createClass({
 						<ItemCategories categories={item.categories} />
 					</a>
 					<div className="edit-functions" style={style}>
+						<button type="button" className="btn btn-default btn-sm" onClick={this.startEdit}>
+							<span className="glyphicon glyphicon-pencil"></span>
+						</button>
 						<button type="button" className="btn btn-danger btn-sm" onClick={this.removePrompt}>
 							<span className="glyphicon glyphicon-remove"></span>
 						</button>

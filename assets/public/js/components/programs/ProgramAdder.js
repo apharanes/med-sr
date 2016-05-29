@@ -4,10 +4,13 @@ var PubSub = require('pubsub-js');
 
 var ProgramAdder = React.createClass({
 	getInitialState: function () {
-		return { programs: [] };
+		return {
+			programs: []
+		};
 	},
 	componentDidMount: function () {
 		var self = this;
+		var selected = this.props.selected;
 
 		if(this.isMounted()) {
 			$.ajax({
@@ -17,8 +20,7 @@ var ProgramAdder = React.createClass({
 					self.setState({
 						programs: programs
 					});
-
-					if(!_.isEmpty(programs)){
+					if (programs.length > 0) {
 						self.setProgram(programs[0]);
 					}
 				}
@@ -40,21 +42,28 @@ var ProgramAdder = React.createClass({
 		this.setProgram(program);		
 	},
 	render: function () {
-		var programs;
-
+		var selected;
 		if(!_.isEmpty(this.state.programs)) {
 			programs = this.state.programs.map(function (program, index) {
 				return (
 					<option value={program._id} key={index}>{program.name}</option>
 				);
 			});
+				
+			if (this.props.selected.hasOwnProperty('_id')) {
+				selected = this.props.selected._id;
+			} else {
+				selected = this.state.programs[0]._id;
+			}
+
 		} else {
-			programs = <option>No programs are created yet.</option>
+			programs = <option value="empty">No programs are created yet.</option>
+			selected = 'empty';
 		}
 
 		return (
 			<div className="program list-adder">
-				<select className="form-control" onChange={this.handleChange}>
+				<select className="form-control" onChange={this.handleChange} value={selected}>
 					{programs}
 				</select>
 			</div>
