@@ -18,6 +18,7 @@ module.exports = (app) ->
 	app.post	'/api/items/by/date', item.listByTargetDate
 	app.put 	'/api/items/:item_id', item.update
 	app.delete 	'/api/items/:item_id', item.destroy
+	app.post 	'/api/items/by/group/occurrence', item.getNextRecurrence
 
 	app.get 	'/api/categories', category.index
 	app.post 	'/api/categories', category.create

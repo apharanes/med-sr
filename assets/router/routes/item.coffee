@@ -23,6 +23,7 @@ generateRecurrences = (startDate, programs, callback) ->
 			if err 
 				console.error(err)
 			else
+				console.log(program.schedules)
 				sortedSchedules = _.sortBy(program.schedules, 'recurrence')
 
 				nextDate = moment(startDate).startOf('day')
@@ -149,7 +150,57 @@ exports.listByTargetDate = (req, res) ->
 			if (err)
 				console.error(err)
 				res.send(err)
-			else res.send(items)
+			else
+				res.send(items)
+
+
+exports.getNextRecurrence = (req, res) ->
+	date = req.body.date
+
+
+	return Item
+		.aggregate([
+			{
+				$group: {
+					_id: '$startDate'
+					total: { $sum: 1 }
+				}
+			}
+		])
+		.exec (err, itemsByDate) ->
+			if (err)
+				res.send(err)
+			else
+				dates = _.chain(itemsByDate)
+					.filter(
+						(item) ->
+							return item.total >= 4
+					)
+					.map(
+						(item) ->
+							return moment.utc(item._id).valueOf()
+					)
+					.value()
+
+				console.log(itemsByDate)
+				nearestDate = getNearestFreeDate(date, dates)
+				res.send(nearestDate)
+
+
+getNearestFreeDate = (startDate, dates) ->
+	days = 0
+	nextDate = moment.utc(startDate).startOf('day').valueOf()
+	while days > -1 && days <= 365
+		console.log(dates, nextDate)
+		if !_.contains(dates, nextDate)
+			break
+		else
+			days++
+			nextDate = moment.utc(nextDate).add(days, 'days').valueOf()
+
+	console.log(moment.utc(nextDate.valueOf()).valueOf())
+	return moment.utc(nextDate.valueOf()).valueOf()
+
 
 #
 #  Update item
